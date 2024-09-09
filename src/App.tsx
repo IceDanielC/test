@@ -1,10 +1,16 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import { useRequest } from "ahooks";
 
 function App() {
-  const [count, setCount] = useState(0)
+  // 获取mock数据
+  const getMockData = () =>
+    fetch("http://127.0.0.1:4523/m1/5132576-4796201-default/pet/2");
+
+  const [count, setCount] = useState(0);
+  const { loading, run } = useRequest(getMockData, { manual: true });
 
   return (
     <>
@@ -28,8 +34,11 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <button onClick={run} disabled={loading}>
+        {loading ? "Loading" : "Edit"}
+      </button>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
